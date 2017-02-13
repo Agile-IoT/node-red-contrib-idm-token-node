@@ -1,0 +1,49 @@
+<script type="text/javascript">
+    RED.nodes.registerType('idm-token',{
+        category: 'function',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            tokensource: {value: "any"}
+        },
+        credentials:{
+          clientId: {type:"text"},
+          clientSecret: {type:"password"},
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name||"idm-token";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="idm-token">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-tokensource"><i class="fa fa-tasks"></i> Source</label>
+        <select type="text" id="node-input-tokensource" style="width:70%;">
+        <option value="header">authorization header</option>
+        <option value="session">session</option>
+        </select>
+
+    </div>
+    <div class="form-row">
+      <label for="node-input-clientId"><i class="icon-tag"></i> clientId</label>
+      <input type="text" id="node-input-clientId">
+    </div>
+   <div class="form-row">
+    <label for="node-input-clientSecret"><i class="icon-tag"></i> clientSecret</label>
+    <input type="password" id="node-input-clientSecret">
+  </div>
+  <div id="node-input-tip" class="form-tips">If you leave the token source blank, this  node checks first the authorization header and then the session. Otherwise, if you want to force that only one mechanism is used, fix it with the token source configuration.</div>
+
+</script>
+
+<script type="text/x-red" data-help-name="idm-token">
+    <p>A node that extracts the AGILE IDM token from the bearer, or the node red context. </p>
+</script>
