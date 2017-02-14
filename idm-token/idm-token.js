@@ -1,3 +1,4 @@
+var request = require('request');
 /*
  This function checks the object, and verifies if it looks like an http request.
  If so, it will return the bearer token in the authorization header if any,
@@ -21,16 +22,51 @@ function extractTokenFromRequest(req){
 }
 
 
-function extractTokenFromContext(node){
+
+
+
+function authenticateClient(node, url,client,secret) {
+  return new Promise(function(resolve, reject){
+    var auth = "Basic " + new Buffer(client + ":" + secret).toString("base64");
+    request({
+          method : "POST",
+          url : url+"/oauth2/token",
+          form: {
+            grant_type:'client_credentials'
+          },
+          headers : {
+            "Authorization" : auth
+         }
+    },
+    function (error, response, body) {
+          if(error){
+            return reject(error);
+          }
+          if(response.statusCode === 200){
+            var result = JSON.parse(body);
+            if(result.access_token){
+              //var type  = result.token_type;
+              return resolve(result.access_token);
+            }
+          }
+          else{
+              return reject("unexpected result from IDM status code: " + response.statusCode+ " response: "+ body);
+          }
+    });
+  });
+
+}
+
+function extractTokenFromContext(node, config){
   return new Promise(function(resolve,reject){
     if(node.context().get("token")){
       return resolve(node.context().get("token"));
     }
     else if(node.credentials.clientId && node.credentials.clientSecret ){
-      // in the fugure this should replace the string by the actual token from IDM
-      var token = node.credentials.clientId+"-"+node.credentials.clientSecret+"-"+Math.random();
-      node.context().set("token", token);
-      return resolve(token);
+      authenticateClient(node, config.idm ,node.credentials.clientId ,node.credentials.clientSecret).then(function(token){
+        node.context().set("token", token);
+        return resolve(token);
+      }, reject);
     } else{
       console.log(JSON.stringify("credentials"+JSON.stringify(node.credentials)));
       return reject("credentials for the  node are not set");
@@ -54,7 +90,7 @@ module.exports = function(RED) {
             });
           }
           else if(config.tokensource && config.tokensource === "session"){
-            extractTokenFromContext(node).then(function(token){
+            extractTokenFromContext(node, config).then(function(token){
               msg.token = token;
               node.send(msg);
             }).catch(function(error){

@@ -4,7 +4,8 @@
         color: '#a6bbcf',
         defaults: {
             name: {value:""},
-            tokensource: {value: "any"}
+            tokensource: {value: "any"},
+            idm :{value: "http://localhost:3000"}
         },
         credentials:{
           clientId: {type:"text"},
@@ -32,6 +33,11 @@
         </select>
 
     </div>
+    <div class="form-row">
+    <label for="node-input-idm"><i class="icon-tag"></i>idm location</label>
+    <input type="text" id="node-input-idm">
+    </div>
+
     <div class="form-row">
       <label for="node-input-clientId"><i class="icon-tag"></i> clientId</label>
       <input type="text" id="node-input-clientId">
