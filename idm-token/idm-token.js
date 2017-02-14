@@ -54,7 +54,6 @@ module.exports = function(RED) {
             });
           }
           else if(config.tokensource && config.tokensource === "session"){
-
             extractTokenFromContext(node).then(function(token){
               msg.token = token;
               node.send(msg);
