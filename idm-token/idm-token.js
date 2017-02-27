@@ -1,4 +1,9 @@
 var request = require('request');
+
+
+// When used in the "session" mode. This node attempts to retrieve the token from the  global context.
+
+
 /*
  This function checks the object, and verifies if it looks like an http request.
  If so, it will return the bearer token in the authorization header if any,
@@ -14,7 +19,7 @@ function extractTokenFromRequest(req){
           var split = value.split(" ");
           return resolve(split[split.length-1].trim());
         }
-      })
+      });
     } else{
       return reject("token not found in the request");
     }
@@ -57,7 +62,7 @@ function authenticateClient(node, url,client,secret) {
 
 }
 
-function extractTokenFromContext(node, config){
+function getTokenFromFlowCredentials(node, config){
   return new Promise(function(resolve,reject){
     if(node.context().get("token")){
       return resolve(node.context().get("token"));
@@ -89,19 +94,29 @@ module.exports = function(RED) {
                 node.send(msg);
             });
           }
-          else if(config.tokensource && config.tokensource === "session"){
-            extractTokenFromContext(node, config).then(function(token){
+          else if(config.tokensource && config.tokensource === "flow_credentials"){
+            getTokenFromFlowCredentials(node, config).then(function(token){
               msg.token = token;
               node.send(msg);
             }).catch(function(error){
               node.error("something went wrong when getting token: " + error,msg);
               node.send(msg);
             });
-           }
+          }
+          else if(config.tokensource && config.tokensource === "session"){
+              if(global.token){
+                msg.token = global.token;
+                node.send(msg);
+              }
+              else{
+                node.error("token cannot be found for this session: ");
+                node.send(msg);
+              }
+          }
            //TODO in the future
            //TODO else if config.tokensource === "bla"
            // add if for other cases in which the auth source is forced in the future.
-           else{
+          else{
             extractTokenFromRequest(msg.req).then(function(token){
                 msg.token = token;
                 node.send(msg);
@@ -112,8 +127,9 @@ module.exports = function(RED) {
           }
         });
     }
+
     RED.nodes.registerType("idm-token",TokenExtractNode, {credentials: {
      clientId: {type:"text"},
      clientSecret: {type:"password"}
     }});
-}
+};
