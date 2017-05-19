@@ -17,12 +17,18 @@
   },
   "homepage": "https://github.com/agile-iot/node-red-idm-token-node#readme",
   "dependencies": {
+    "agile-idm-core": "git+https://github.com/Agile-IoT/agile-idm-core#v1.0.3",
+    "agile-sdk": "git+https://github.com/Agile-IoT/agile-sdk.git#security",
+    "lodash": "^4.17.4",
     "request": "^2.79.0"
   },
-  "keywords": [ "node-red" ],
-    "node-red"     : {
-        "nodes": {
-            "sample": "idm-token/idm-token.js"
-        }
+  "keywords": [
+    "node-red"
+  ],
+  "node-red": {
+    "nodes": {
+      "token": "idm-token/idm-token.js",
+      "attribute": "idm-attribute/idm-attribute.js"
     }
+  }
 }

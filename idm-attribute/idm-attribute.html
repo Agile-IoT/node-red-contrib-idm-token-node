@@ -1,0 +1,43 @@
+<script type="text/javascript">
+    RED.nodes.registerType('idm-attribute',{
+        category: 'security',
+        color: '#d19300',
+        defaults: {
+            name: {value:""},
+            idm :{value: "http://agile-idm:3000"},
+            name: {value:"id"},
+            property: {value:"attribute"}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name||"idm-attribute";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="idm-attribute">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+    <label for="node-input-idm"><i class="icon-tag"></i>idm location</label>
+    <input type="text" id="node-input-idm">
+    </div>
+
+</script>
+
+<script type="text/x-red" data-help-name="idm-attribute">
+<p>Node bringing attribute information from AGILE IDM</p>
+ <b>Inputs</b>
+ <p><code>msg.token</code>: This property can be obtained by placing the idm-token node before this one.</p>
+ <p><code>msg.entity_id</code>: This message property specifies the entity id</p>
+ <p><code>msg.entity_type</code>: This message property specifies the entity type, e.g. user, client, sensor, etc.</p></p>
+ <p><code>msg.attribute</code>: This message property specifies the entity attribute to be read, e.g. id, credentials.dropbox, etc.</p></p>
+ <p><code>msg.destination_property</code>: Once the node has processed the information for the entity, it will place in msg[msg.destination_property] the result. If no value is provided, it will be placed under msg.entity_attribute</p>
+ <b>Outputs</b>
+     msg[msg.destination_property] or msg.entity_attribute (if no destination_property was found) contain the entity attribute information
+
+</script>
