@@ -1,5 +1,5 @@
 {
-  "name": "nodered-contrib-idm-token-node",
+  "name": "node-red-contrib-security-nodes",
   "version": "1.0.0",
   "description": "This node enables node-red flows to retrieve access tokens from request headers or the session.",
   "main": "index.js",
