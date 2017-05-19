@@ -5,7 +5,7 @@
         defaults: {
             name: {value:""},
             tokensource: {value: "any"},
-            idm :{value: "http://localhost:3000"}
+            idm :{value: "http://agile-idm:3000"}
         },
         credentials:{
           clientId: {type:"text"},
@@ -26,11 +26,11 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-        <label for="node-input-tokensource"><i class="fa fa-tasks"></i> Source</label>
+        <label for="node-input-tokensource"><i class="fa fa-tasks"></i>Source</label>
         <select type="text" id="node-input-tokensource" style="width:70%;">
         <option value="header">authorization header</option>
         <option value="session">session</option>
-        <option value="flow_credentials">flow credentials</option>
+        <!--option value="flow_credentials">flow credentials</option-->
         </select>
 
     </div>
@@ -39,18 +39,25 @@
     <input type="text" id="node-input-idm">
     </div>
 
-    <div class="form-row">
+    <!-- These can be used for the flow_credentials flow, but this is not yet supported through AGILE (creation of client when node-red is openned..)-->
+    <!--div class="form-row">
       <label for="node-input-clientId"><i class="icon-tag"></i> clientId</label>
       <input type="text" id="node-input-clientId">
     </div>
    <div class="form-row">
     <label for="node-input-clientSecret"><i class="icon-tag"></i> clientSecret</label>
     <input type="password" id="node-input-clientSecret">
-  </div>
-  <div id="node-input-tip" class="form-tips">If you leave the token source blank, this  node checks first the authorization header and then the session. Otherwise, if you want to force that only one mechanism is used, fix it with the token source configuration.</div>
+  </div!-->
 
 </script>
 
 <script type="text/x-red" data-help-name="idm-token">
     <p>A node that extracts the AGILE IDM token from the bearer, or the node red context. </p>
+    <b>Token sources</b>
+    <ul>
+       <li><b>header</b>: this method tries to get the header from an HTTP request (for this to work the node triggering the flow needs to be an http input and the request needs to have a valid Authorization header)</li>
+       <li><b>session</b>: this method gets the header from the current OS.js session (this method requires a valid OS.js session, i.e. the user needs to be logged in with OS.js and his token must not have expired)</li>
+       <!--li><b>flow credentials</b>: this method authenticates the flow deployed as a particular client (configured in the node-red instance)</li-->
+    </ul>
+
 </script>
