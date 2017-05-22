@@ -1,5 +1,5 @@
 var request = require('request');
-
+var SDK = require('../agile-sdk/dist');
 
 // When used in the "session" mode. This node attempts to retrieve the token from the  global context.
 
@@ -61,6 +61,15 @@ function authenticateClient(node, url,client,secret) {
   });
 
 }
+function getUserInfo(node, config, msg){
+  node.log("msg "+JSON.stringify(msg));
+  node.log("getting user info from "+config.idm);
+  var agile = SDK("",config.idm,msg.token);
+  return agile.idm.user.getUserInfo();
+
+}
+
+
 
 function getTokenFromFlowCredentials(node, config){
   return new Promise(function(resolve,reject){
@@ -84,10 +93,16 @@ module.exports = function(RED) {
         RED.nodes.createNode(this,config);
          var node = this;
         this.on('input', function(msg) {
+          node.log("config for token node "+JSON.stringify(config));
           this.log("token source selected for idm-token "+JSON.stringify(config));
           if(config.tokensource && config.tokensource === "header"){
             extractTokenFromRequest(msg.req).then(function(token){
                 msg.token = token;
+                return config.userinfo?getUserInfo(node,config,msg):Promise.resolve();
+            }).then(function(info){
+                if(info){
+                  msg.userInfo = info;
+                }
                 node.send(msg);
             }).catch(function(error){
                 node.error("something went wrong when getting token: " + error,msg);
@@ -106,7 +121,21 @@ module.exports = function(RED) {
           else if(config.tokensource && config.tokensource === "session"){
               if(global.token){
                 msg.token = global.token;
-                node.send(msg);
+                if(config.userinfo){
+                  getUserInfo(node,config,msg)
+                    .then(function(info){
+                     if(info){
+                       msg.userInfo = info;
+                     }
+                     node.send(msg);
+                   }).catch(function(error){
+                     node.error("something went wrong when getting user info: " + error,msg);
+                     node.send(msg);
+                   })
+               }
+               else{
+                 node.send(msg);
+               }
               }
               else{
                 node.error("token cannot be found for this session: ");
