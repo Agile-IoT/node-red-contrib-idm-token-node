@@ -1,6 +1,6 @@
 var request = require('request');
 var lo = require('lodash');
-var SDK = require('agile-sdk');
+var SDK = require('../agile-sdk/dist');
 var node_type = "idm-attribute";
 
 module.exports = function(RED) {
@@ -9,7 +9,7 @@ module.exports = function(RED) {
         var node = this;
 
         this.on('input', function(msg) {
-          
+
           var conditions = [{cond:msg.token, msg:'msg.token not provided'}, {cond:(config && config.idm),msg:'idm url not provided in node\'s configuration'},{cond:msg.entity_id,msg:'msg.entity_id not provided'},{cond: msg.entity_type,msg: 'msg.entity_type not provided'},{cond: msg.attribute,msg: 'msg.attribute not provided'}];
           var errors  = conditions.reduce(
             (accumulator, currentValue, currentIndex, array) => {
