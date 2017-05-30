@@ -1,6 +1,6 @@
 var request = require('request');
 var lo = require('lodash');
-var SDK = require('../agile-sdk/dist');
+var SDK = require('agile-sdk');
 var node_type = "idm-attribute";
 
 module.exports = function(RED) {

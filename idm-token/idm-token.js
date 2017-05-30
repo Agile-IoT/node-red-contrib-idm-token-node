@@ -1,5 +1,5 @@
 var request = require('request');
-var SDK = require('../agile-sdk/dist');
+var SDK = require('agile-sdk');
 
 // When used in the "session" mode. This node attempts to retrieve the token from the  global context.
 
