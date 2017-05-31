@@ -23,14 +23,18 @@ module.exports = function(RED) {
           }
           else{
 
-            var agile = SDK("",config.idm,msg.token);
-            agile.idm.entity.getEntity(msg.entity_id,msg.entity_type).then(function(entity){
+            var agile = SDK({
+              api:"",
+              idm:config.idm,
+              token:msg.token
+            });
+            agile.idm.entity.get(msg.entity_id,msg.entity_type).then(function(entity){
               value = lo.get(entity,msg.attribute);
               var dest = msg.destination_property?msg.destination_property:"entity_attribute";
               lo.set(msg,dest,value);
               node.send(msg);
             }).catch(function(error){
-              node.warn("IDM call not successful: "+error);
+              node.error("IDM call not successful: "+error);
               node.send(msg);
             });
           }

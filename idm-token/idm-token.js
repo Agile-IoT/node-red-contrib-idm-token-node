@@ -62,10 +62,13 @@ function authenticateClient(node, url,client,secret) {
 
 }
 function getUserInfo(node, config, msg){
-  node.log("msg "+JSON.stringify(msg));
   node.log("getting user info from "+config.idm);
-  var agile = SDK("",config.idm,msg.token);
-  return agile.idm.user.getUserInfo();
+  var agile = SDK({
+    api:"",
+    idm:config.idm,
+    token:msg.token
+  });
+  return agile.idm.user.getCurrentUserInfo();
 
 }
 
