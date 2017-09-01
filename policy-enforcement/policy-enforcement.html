@@ -1,0 +1,74 @@
+<script type="text/javascript">
+    RED.nodes.registerType('policy-enforcement',{
+        category: 'agile',
+        color: '#d19300',
+        defaults: {
+            name: {value:""},
+            action :{value: ""},
+            operation:{value: "read"},
+            entityType:{value: ""},
+            entityId:{value: ""},
+            pdp : {value : "http://agile-security:3000"},
+            forwardEmptyMessage : {value : false}
+        },
+        inputs:1,
+        outputs:1,
+        icon: "file.png",
+        label: function() {
+            return this.name||"policy-enforcement";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="policy-enforcement">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-operation"><i class="fa fa-tasks"></i>Operation</label>
+        <select type="text" id="node-input-operation" style="width:70%;">
+        <option value="read">read</option>
+        <option value="wrote">write</option>
+        </select>
+s
+    </div>
+    <div class="form-row">
+        <label for="node-input-action"><i class="icon-tag"></i>Custom Action</label>
+        <input type="text" id="node-input-action" placeholder="action">
+    </div>
+    <div class="form-row">
+        <label for="node-input-pdp"><i class="icon-tag"></i>pdp location</label>
+        <input type="text" id="node-input-pdp" placeholder="pdp">
+    </div>
+    <div class="form-row">
+        <label for="node-input-entityType"><i class="icon-tag"></i>entity type</label>
+        <input type="text" id="node-input-entityType" placeholder="entityType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-entityId"><i class="icon-tag"></i>entity id</label>
+        <input type="text" id="node-input-entityId" placeholder="entityId">
+    </div>
+    <div class="form-row">
+        <label>&nbsp;</label>
+        <input type="checkbox" id="node-input-forwardEmptyMessage" style="display: inline-block; width: auto; vertical-align: top;">
+        <label for="node-input-forwardEmptyMessage" style="width: 70%;">Forward empty message if Policy fails</label>
+    </div>
+
+
+
+</script>
+
+<script type="text/x-red" data-help-name="policy-enforcement">
+    <p>A node that extracts the AGILE IDM token from the bearer, or the node red context. </p>
+    <b>Token sources</b>
+    <ul>
+       <li><b>header</b>: this method tries to get the header from an HTTP request (for this to work the node triggering the flow needs to be an http input and the request needs to have a valid Authorization header)</li>
+       <li><b>session</b>: this method gets the header from the current OS.js session (this method requires a valid OS.js session, i.e. the user needs to be logged in with OS.js and his token must not have expired)</li>
+       <!--li><b>flow credentials</b>: this method authenticates the flow deployed as a particular client (configured in the node-red instance)</li-->
+    </ul>
+    <b>User Info</b>
+    <p>
+    If the user info checkbox is selected, this node will bring the user name and authentication type for the user authenticated with the token and place them under <code>userInfo</code>.
+    </p>
+</script>
