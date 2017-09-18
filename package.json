@@ -18,7 +18,7 @@
   "homepage": "https://github.com/agile-iot/node-red-contrib-security-nodes#readme",
   "dependencies": {
     "agile-idm-core": "git+https://github.com/Agile-IoT/agile-idm-core#v1.0.3",
-    "agile-sdk": "^0.5.0",
+    "agile-sdk": "1.2.0",
     "lodash": "^4.17.4",
     "request": "^2.79.0"
   },

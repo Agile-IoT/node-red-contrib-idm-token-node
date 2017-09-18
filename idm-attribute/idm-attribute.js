@@ -9,8 +9,14 @@ module.exports = function(RED) {
         var node = this;
 
         this.on('input', function(msg) {
-
-          var conditions = [{cond:msg.token, msg:'msg.token not provided'}, {cond:(config && config.idm),msg:'idm url not provided in node\'s configuration'},{cond:msg.entity_id,msg:'msg.entity_id not provided'},{cond: msg.entity_type,msg: 'msg.entity_type not provided'},{cond: msg.attribute,msg: 'msg.attribute not provided'}];
+          var idm, entityId, entityType, attribute, destination, token;
+          this.log("config:"+JSON.stringify(config))
+          var conditions = [
+            {cond: (token = msg.token), msg:'msg.token not provided'},
+            {cond:(config && config.idm),msg:'idm url not provided in node\'s configuration'},
+            {cond:(entityId = msg.entity_id || config.entity_id) ,msg:'entity_id not provided'},
+            {cond:(entityType = msg.entity_type || config.entity_type),msg: 'entity_type not provided'},
+            {cond:(attribute = msg.attribute || config.attribute),msg: 'attribute not provided'}];
           var errors  = conditions.reduce(
             (accumulator, currentValue, currentIndex, array) => {
               return (!currentValue.cond)? (accumulator + currentValue.msg + ". "):accumulator;
@@ -28,9 +34,10 @@ module.exports = function(RED) {
               idm:config.idm,
               token:msg.token
             });
-            agile.idm.entity.get(msg.entity_id,msg.entity_type).then(function(entity){
-              value = lo.get(entity,msg.attribute);
-              var dest = msg.destination_property?msg.destination_property:"entity_attribute";
+            destination = config.destination_property || msg.destination_property;
+            agile.idm.entity.get(entityId,entityType).then(function(entity){
+              value = lo.get(entity, attribute);
+              var dest = destination?destination:"entity_attribute";
               lo.set(msg,dest,value);
               node.send(msg);
             }).catch(function(error){

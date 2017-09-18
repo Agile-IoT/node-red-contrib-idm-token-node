@@ -3,10 +3,14 @@
         category: 'agile',
         color: '#d19300',
         defaults: {
-            name: {value:""},
-            idm :{value: "http://agile-security:3000"},
-            name: {value:"id"},
-            property: {value:"attribute"}
+          name: {value:""},
+          idm :{value: "http://agile-security:3000"},
+          name: {value:"id"},
+          property: {value:"attribute"},
+          entity_id: {value :""},
+          entity_type : {value: ""},
+          attribute : {value: ""},
+          destination_property : {value: ""}
         },
         inputs:1,
         outputs:1,
@@ -23,10 +27,26 @@
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
     <div class="form-row">
-    <label for="node-input-idm"><i class="icon-tag"></i>idm location</label>
+    <div class="form-row">
+    <label for="node-input-idm"><i class="icon-tag"></i>Idm location</label>
     <input type="text" id="node-input-idm">
     </div>
-
+    <div class="form-row">
+    <label for="node-input-entity_id"><i class="icon-tag"></i>Entity id</label>
+    <input type="text" id="node-input-entity_id">
+    </div>
+    <div class="form-row">
+    <label for="node-input-entity_type"><i class="icon-tag"></i>Entity type</label>
+    <input type="text" id="node-input-entity_type">
+    </div>
+    <div class="form-row">
+    <label for="node-input-attribute"><i class="icon-tag"></i>Attribute</label>
+    <input type="text" id="node-input-attribute">
+    </div>
+    <div class="form-row">
+    <label for="node-input-destination_property"><i class="icon-tag"></i>Destination </label>
+    <input type="text" id="node-input-destination_property">
+    </div>
 </script>
 
 <script type="text/x-red" data-help-name="idm-attribute">
