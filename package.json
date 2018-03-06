@@ -19,6 +19,7 @@
   "dependencies": {
     "agile-idm-core": "git+https://github.com/Agile-IoT/agile-idm-core#v1.0.3",
     "agile-sdk": "1.2.0",
+    "knox": "^0.9.2",
     "lodash": "^4.17.4",
     "request": "^2.79.0"
   },
@@ -30,7 +31,7 @@
       "token": "idm-token/idm-token.js",
       "attribute": "idm-attribute/idm-attribute.js",
       "enforcement": "policy-enforcement/policy-enforcement.js"
-
+      "s3-secret-sharing": "secret-sharing/s3-secret-sharing.js"
     }
   }
 }

@@ -1,0 +1,19 @@
+{
+  "name": "node-red-contrib-prismacloud-secret-sharing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "node-red": {
+    "nodes": {
+      "s3-secret-sharing": "s3-secret-sharing.js"
+    }
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "knox": "^0.9.2"
+  }
+}
