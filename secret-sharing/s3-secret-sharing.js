@@ -37,6 +37,7 @@ function init(config, node, cb){
    cb();
 }
 
+
 function read(filename, cb){
     if(!filename ){
       cb(new Error('filename for file to be read was not provided'))
@@ -47,21 +48,26 @@ function read(filename, cb){
         cb(error)
       });
       req.on('response', function(res){
-      console.log(`status code ${res.statusCode}`);
-      console.log(`headers : ${res.headers}`);
-      res.setEncoding('utf8');
-      var x = '';
-      res.on('data', function(chunk){
-        console.log('got chunk')
-        console.log(chunk);
-        x = x+chunk
-      });
-      res.on('end', function(){
-        cb(null, x)
-      })
-      res.on('error',function(error){
-        cb(error)
-      })
+        if(res.statusCode != 200){
+          cb(new Error(`unexpected error with HTTP code ${res.statusCode} from S3 service`))
+        } else {
+          console.log(`status code ${res.statusCode}`);
+          console.log(`headers : ${res.headers}`);
+          res.setEncoding('utf8');
+          var x = '';
+          res.on('data', function(chunk){
+            console.log('got chunk')
+            console.log(chunk);
+            x = x+chunk
+          });
+          res.on('end', function(){
+            cb(null, x)
+          })
+          res.on('error',function(error){
+            cb(error)
+          })
+        }
+
     }).end();
 
   } catch(error) {
