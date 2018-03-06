@@ -30,7 +30,7 @@
     "nodes": {
       "token": "idm-token/idm-token.js",
       "attribute": "idm-attribute/idm-attribute.js",
-      "enforcement": "policy-enforcement/policy-enforcement.js"
+      "enforcement": "policy-enforcement/policy-enforcement.js",
       "s3-secret-sharing": "secret-sharing/s3-secret-sharing.js"
     }
   }
