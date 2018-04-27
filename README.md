@@ -1,4 +1,4 @@
-#IDM-TOKEN Node
+# IDM-TOKEN Node
 
 
 This node enables node-red flows to retrieve access tokens from request headers or the session.
@@ -14,7 +14,7 @@ For testing, you can paste this flow in the Node-RED screen in the AGILE UI and 
 
 ```
 
-#ARCHISTAR-S3 Secret Sharing
+# ARCHISTAR-S3 Secret Sharing
 
 
 This node enables node-red flows to share data in Amazon Simple Storage Service (S3) buckets, as well as reconstruct the shares back to the original data.
