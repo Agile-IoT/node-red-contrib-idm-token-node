@@ -18,7 +18,7 @@ For testing, you can paste this flow in the Node-RED screen in the AGILE UI and 
 
 
 This node enables node-red flows to share data in Amazon Simple Storage Service (S3) buckets, as well as reconstruct the shares back to the original data.
-ARCHISTAR-S3 [http://archistar.at/](http://archistar.at/) represents the S3 API that takes care of sharing and reconstructing data with Secret Sharing algorithms and interact with real data stores that offer an interface for S3 data buckets. 
+ARCHISTAR-S3 [http://archistar.at/](http://archistar.at/) represents the S3 API that takes care of sharing and reconstructing data with Secret Sharing algorithms and interact with the actual data stores that offer an interface for S3 data buckets. 
 
 ## Setup
 ### 1. Add the configuration
